@@ -1,0 +1,101 @@
+#!/bin/sh
+
+cwd=`dirname "$0"`
+expr "$0" : "/.*" > /dev/null || cwd=`(cd "$cwd" && pwd)`
+
+usage() {
+    C=$1
+    echo "USAGE: $1 [WORKFLOW] [VIDEO_FILE] [BATCH_NAME] [BATCH_WORK_DIR]"
+    echo "   WORKFLOW : ALL|OCR_MP|JSON2CC|SEARCH_UPLOAD"
+    exit 1;
+}
+
+#################################################################
+# run_ocr_mp
+#################################################################
+run_ocr_mp (){
+    _BATCH_NAME=$1
+    _BATCH_OUTPUT_DIR=$2
+    _VIDEO_FILE=$3
+
+    _ASSET_NAME=${_BATCH_NAME}
+    AMS_CONF_FILE=$cwd/ams.config
+    AMSMP_OCR_PARAM_FILE=$cwd/ocr-detecregion.json
+    AMSMP_BASE_DIR=$cwd/../mediaprocessors/azure-media-processor-java
+
+    cd $AMSMP_BASE_DIR
+    mvn exec:java -Dexec.args="-t 17 -a ${_ASSET_NAME} -c ${AMS_CONF_FILE} -f ${_VIDEO_FILE} -p ${AMSMP_OCR_PARAM_FILE} -o ${_BATCH_OUTPUT_DIR} -d true"    
+}
+
+#################################################################
+# run_json2cc_convert
+#################################################################
+run_json2cc_convert() {
+    _BATCH_NAME=$1
+    _BATCH_OUTPUT_DIR=$2
+    ${cwd}/ocr_json2cc.py ${_BATCH_OUTPUT_DIR}/${_BATCH_NAME}_videoocr.json 0 > ${_BATCH_OUTPUT_DIR}/${_BATCH_NAME}.simple
+    ${cwd}/ocr_json2cc.py ${_BATCH_OUTPUT_DIR}/${_BATCH_NAME}_videoocr.json 1 > ${_BATCH_OUTPUT_DIR}/${_BATCH_NAME}.vtt
+}
+
+#################################################################
+# run_search_upload
+#################################################################
+run_search_upload() {
+    _BATCH_NAME=$1
+    _BATCH_OUTPUT_DIR=$2
+    _OCR_INDEX_NAME=$3
+    ${cwd}/search_upload.py ${_BATCH_OUTPUT_DIR}/${_BATCH_NAME}.vtt ${_BATCH_NAME} ${_OCR_INDEX_NAME}
+}
+
+
+#################################################################
+# main
+#################################################################
+if [ $# -ne 4 ]
+then
+    usage $0;
+fi
+
+WORKFLOW=$1
+VIDEO_FILE=$2
+BATCH_NAME=$3
+BATCH_WORK_DIR=$4
+
+OCR_INDEX_NAME="ocr"
+
+if [ ! -e $BATCH_WORK_DIR ]
+then
+    mkdir -p $BATCH_WORK_DIR
+else
+    # check if there are any existing batch files
+fi
+
+if [ "$WORKFLOW" = "ALL" ]; then
+    {
+        run_ocr_mp ${BATCH_NAME} $(BATCH_WORK_DIR) ${VIDEO_FILE}
+    } 2>&1 | tee ${BATCH_WORK_DIR}/run_ocr_mp.err
+    {
+        run_json2cc_convert ${BATCH_NAME} ${BATCH_WORK_DIR} 
+    } 2>&1 | tee ${BATCH_WORK_DIR}/run_json2cc_convert.err
+    {
+        run_search_upload ${BATCH_NAME} ${BATCH_WORK_DIR} ${OCR_INDEX_NAME}
+    } 2>&1 | tee ${BATCH_WORK_DIR}/run_search_upload.err
+fi
+if [ "$WORKFLOW" = "OCR_MP" ]; then
+    {
+        run_ocr_mp ${BATCH_NAME} $(BATCH_WORK_DIR) ${VIDEO_FILE}
+    } 2>&1 | tee ${BATCH_WORK_DIR}/run_ocr_mp.err
+elif [ "$WORKFLOW" = "JSON2CC" ]; then
+    {
+        run_json2cc_convert ${BATCH_NAME} ${BATCH_WORK_DIR} 
+    } 2>&1 | tee ${BATCH_WORK_DIR}/run_json2cc_convert.err
+elif [ "$WORKFLOW" = "SEARCH_UPLOAD" ]; then
+    {
+        run_search_upload ${BATCH_NAME} ${BATCH_WORK_DIR} ${OCR_INDEX_NAME}
+    } 2>&1 | tee ${BATCH_WORK_DIR}/run_search_upload.err
+else
+    echo "[ERROR] Invalid workflow!!"
+    usage $0
+fi 
+
+exit 0

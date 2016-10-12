@@ -1,0 +1,12 @@
+{
+    "Version":"1.0", 
+    "Options": 
+    {
+        "Language":"Japanese", 
+        "TimeInterval":"00:00:01.000",
+        "DetectRegions":
+        [
+            {"Left":"0","Top":"85","Width":"640","Height":"255"}
+        ]
+    }
+}
