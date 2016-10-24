@@ -1,0 +1,8 @@
+{
+    'Version':'1.0', 
+    'Options': 
+    {
+        'Language':'Japanese', 
+        'TimeInterval':'00:00:01.000',
+    }
+}

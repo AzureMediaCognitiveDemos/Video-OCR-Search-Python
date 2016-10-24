@@ -5,8 +5,10 @@ expr "$0" : "/.*" > /dev/null || cwd=`(cd "$cwd" && pwd)`
 
 usage() {
     C=$1
-    echo "USAGE: $1 [WORKFLOW] [VIDEO_FILE] [BATCH_NAME] [BATCH_WORK_DIR]"
-    echo "   WORKFLOW : ALL|OCR_MP|JSON2CC|SEARCH_UPLOAD"
+    echo "usage: $1 [WORKFLOW] [VIDEO_FILE] [BATCH_NAME] [BATCH_WORK_DIR]"
+    echo "This program generates webvtt file from your video leveraging Azure Media Services OCR Media processor and upload all dataset of extracted text and their appearing times into Azure search to make them searchable"
+    echo ""
+    echo "WORKFLOW : ALL|OCR_MP|JSON2CC|SEARCH_UPLOAD"
     exit 1;
 }
 
@@ -20,11 +22,13 @@ run_ocr_mp (){
 
     _ASSET_NAME=${_BATCH_NAME}
     AMS_CONF_FILE=$cwd/ams.config
-    AMSMP_OCR_PARAM_FILE=$cwd/ocr-detecregion.json
+    AMSMP_OCR_PARAM_FILE=$cwd/ocr-detectregion.json
     AMSMP_BASE_DIR=$cwd/../mediaprocessors/azure-media-processor-java
-
+    
+    echo 'Batch OCR_MP start ....'
     cd $AMSMP_BASE_DIR
     mvn exec:java -Dexec.args="-t 17 -a ${_ASSET_NAME} -c ${AMS_CONF_FILE} -f ${_VIDEO_FILE} -p ${AMSMP_OCR_PARAM_FILE} -o ${_BATCH_OUTPUT_DIR} -d true"    
+    echo 'Batch OCR_MP Done!'
 }
 
 #################################################################
@@ -33,8 +37,9 @@ run_ocr_mp (){
 run_json2cc_convert() {
     _BATCH_NAME=$1
     _BATCH_OUTPUT_DIR=$2
-    ${cwd}/ocr_json2cc.py ${_BATCH_OUTPUT_DIR}/${_BATCH_NAME}_videoocr.json 0 > ${_BATCH_OUTPUT_DIR}/${_BATCH_NAME}.simple
+    echo 'Batch JSON2CC start ....'
     ${cwd}/ocr_json2cc.py ${_BATCH_OUTPUT_DIR}/${_BATCH_NAME}_videoocr.json 1 > ${_BATCH_OUTPUT_DIR}/${_BATCH_NAME}.vtt
+    echo 'Batch JSON2CC Done!'
 }
 
 #################################################################
@@ -44,7 +49,9 @@ run_search_upload() {
     _BATCH_NAME=$1
     _BATCH_OUTPUT_DIR=$2
     _OCR_INDEX_NAME=$3
+    echo 'Batch SEARCH_UPLOAD start ....'
     ${cwd}/search_upload.py ${_BATCH_OUTPUT_DIR}/${_BATCH_NAME}.vtt ${_BATCH_NAME} ${_OCR_INDEX_NAME}
+    echo 'Batch SEARCH_UPLOAD Done!'
 }
 
 
