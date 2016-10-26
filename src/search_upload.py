@@ -112,7 +112,6 @@ if __name__ == '__main__':
         text = line[0:len(line)]
         # empty line
         line = f.readline()
-        print line
         document = {
             "id" : "{0}-{1}".format(contentid,str(docindex)),
             "contentid": contentid,

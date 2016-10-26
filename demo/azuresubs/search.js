@@ -1,9 +1,9 @@
-var azureSearchAccount="<Azure Search Account Name>";
-var azureSearchQueryApiKey = "<Azure Search API Admin Key>";
-var indexNameCaptions="<Azure Search Index Name>";
-var contentid = "<Batch Name>";
-
+var azureSearchAccount="yoichikademo0";
+var azureSearchQueryApiKey = "5694051B97CC6A115D1FAA700B9033C1";
+var indexNameCaptions="ocr";
+var contentid = "azuresubs";
 var inSearch = false;
+
 function init()
 {
 	var searchAPI = "https://" + azureSearchAccount + ".search.windows.net/indexes/" + indexNameCaptions + "/docs?$top=1000&$select=id,contentid,beginsec,begin,end,caption&$count=true&$orderby=beginsec&api-version=2015-02-28&$filter=contentid%20eq%20%27" + contentid + "%27";
@@ -27,10 +27,11 @@ function init()
 				var beginsec = data.value[item].beginsec;
 				var begin = data.value[item].begin;
 				var end = data.value[item].end;
-
-                $( "#colcontainer2" ).append( 
-                    '<li>[<a href="#" id="hoge" onclick=\"restart(' + beginsec + ');\">'
-                    + begin + ' - ' +  end + '</a>] ' + caption + '</li>');
+                if (caption !='' ) {
+                    $( "#colcontainer2" ).append( 
+                        '<li>[<a href="#" id="hoge" onclick=\"restart(' + beginsec + ');\">'
+                        + begin + ' - ' +  end + '</a>] ' + caption + '</li>');
+                }
 			}
             $( "#colcontainer2" ).append('</ul>');
 			inSearch= false;
