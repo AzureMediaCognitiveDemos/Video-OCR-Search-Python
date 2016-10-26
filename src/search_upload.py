@@ -82,11 +82,11 @@ if __name__ == '__main__':
     argvs = sys.argv
     argc = len(argvs)
     if (argc != 4):
-        print 'Usage: # python %s <webvtt> <sessionid> <indexname>' % argvs[0]
+        print 'Usage: # python %s <webvtt> <contentid> <indexname>' % argvs[0]
         quit()
    
     webvttfile = argvs[1];
-    sessionid = argvs[2];
+    contentid = argvs[2];
     indexname = argvs[3];
     documents = []
     c =0
@@ -104,25 +104,18 @@ if __name__ == '__main__':
     f.readline()
     line = f.readline()
     while line:
-        ## time
-        # 00:00:00.000 --> 00:00:02.000
         line = f.readline().strip()
-        #print line
         beginstr= line[0:8]
         endstr= line[17:25]
-        #print 'beginstr',beginstr
-        #print 'endstr',endstr
-                
         ## text
         line = f.readline().strip()
-        #print line
         text = line[0:len(line)]
         # empty line
         line = f.readline()
         print line
         document = {
-            "id" : "{0}-{1}".format(sessionid,str(docindex)),
-            "sessionid": sessionid,
+            "id" : "{0}-{1}".format(contentid,str(docindex)),
+            "contentid": contentid,
             "beginsec": get_sec_from_timestr(beginstr),
             "begin": beginstr,
             "end": endstr,

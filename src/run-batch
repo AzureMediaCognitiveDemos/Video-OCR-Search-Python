@@ -21,13 +21,26 @@ run_ocr_mp (){
     _VIDEO_FILE=$3
 
     _ASSET_NAME=${_BATCH_NAME}
-    AMS_CONF_FILE=$cwd/ams.config
+    AMS_CONF_FILE=$cwd/ams.conf
+    #AMSMP_OCR_PARAM_FILE=$cwd/ocr.json
     AMSMP_OCR_PARAM_FILE=$cwd/ocr-detectregion.json
     AMSMP_BASE_DIR=$cwd/../mediaprocessors/azure-media-processor-java
     
     echo 'Batch OCR_MP start ....'
     cd $AMSMP_BASE_DIR
     mvn exec:java -Dexec.args="-t 17 -a ${_ASSET_NAME} -c ${AMS_CONF_FILE} -f ${_VIDEO_FILE} -p ${AMSMP_OCR_PARAM_FILE} -o ${_BATCH_OUTPUT_DIR} -d true"    
+
+    # rename output json file to '${_BATCH_NAME}'.json
+    ve="${_VIDEO_FILE##*/}"    # w/ extension
+    VIDEO_FILE_NAME="${ve%.*}" # w/o extension
+    OCR_MP_OUTPUT_FILE=${_BATCH_OUTPUT_DIR}/${VIDEO_FILE_NAME}_videoocr.json
+    if [ ! -e ${OCR_MP_OUTPUT_FILE} ]
+    then
+        echo "[ERROR] no OCR MP Output file found: ${OCR_MP_OUTPUT_FILE}"
+        exit 1
+    fi
+    mv ${OCR_MP_OUTPUT_FILE}  ${_BATCH_OUTPUT_DIR}/${_BATCH_NAME}.json
+
     echo 'Batch OCR_MP Done!'
 }
 
@@ -38,7 +51,7 @@ run_json2cc_convert() {
     _BATCH_NAME=$1
     _BATCH_OUTPUT_DIR=$2
     echo 'Batch JSON2CC start ....'
-    ${cwd}/ocr_json2cc.py ${_BATCH_OUTPUT_DIR}/${_BATCH_NAME}_videoocr.json 1 > ${_BATCH_OUTPUT_DIR}/${_BATCH_NAME}.vtt
+    ${cwd}/ocr_json2cc.py ${_BATCH_OUTPUT_DIR}/${_BATCH_NAME}.json 1 > ${_BATCH_OUTPUT_DIR}/${_BATCH_NAME}.vtt
     echo 'Batch JSON2CC Done!'
 }
 
@@ -64,22 +77,19 @@ then
 fi
 
 WORKFLOW=$1
-VIDEO_FILE=$2
+VIDEO_FILE=$(cd $(dirname $2) && pwd)/$(basename $2)
 BATCH_NAME=$3
-BATCH_WORK_DIR=$4
-
+BATCH_WORK_DIR=$(cd $(dirname $4) && pwd)/$(basename $4)
 OCR_INDEX_NAME="ocr"
 
 if [ ! -e $BATCH_WORK_DIR ]
 then
     mkdir -p $BATCH_WORK_DIR
-else
-    # check if there are any existing batch files
 fi
 
 if [ "$WORKFLOW" = "ALL" ]; then
     {
-        run_ocr_mp ${BATCH_NAME} $(BATCH_WORK_DIR) ${VIDEO_FILE}
+        run_ocr_mp ${BATCH_NAME} ${BATCH_WORK_DIR} ${VIDEO_FILE}
     } 2>&1 | tee ${BATCH_WORK_DIR}/run_ocr_mp.err
     {
         run_json2cc_convert ${BATCH_NAME} ${BATCH_WORK_DIR} 
@@ -87,10 +97,9 @@ if [ "$WORKFLOW" = "ALL" ]; then
     {
         run_search_upload ${BATCH_NAME} ${BATCH_WORK_DIR} ${OCR_INDEX_NAME}
     } 2>&1 | tee ${BATCH_WORK_DIR}/run_search_upload.err
-fi
-if [ "$WORKFLOW" = "OCR_MP" ]; then
+elif [ "$WORKFLOW" = "OCR_MP" ]; then
     {
-        run_ocr_mp ${BATCH_NAME} $(BATCH_WORK_DIR) ${VIDEO_FILE}
+        run_ocr_mp ${BATCH_NAME} ${BATCH_WORK_DIR} ${VIDEO_FILE}
     } 2>&1 | tee ${BATCH_WORK_DIR}/run_ocr_mp.err
 elif [ "$WORKFLOW" = "JSON2CC" ]; then
     {

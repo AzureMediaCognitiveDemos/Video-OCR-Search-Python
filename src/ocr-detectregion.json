@@ -6,7 +6,7 @@
         "TimeInterval":"00:00:01.000",
         "DetectRegions":
         [
-            {"Left":"0","Top":"85","Width":"640","Height":"255"}
+            {"Left":"0","Top":"85","Width":"1280","Height":"635"}
         ]
     }
 }

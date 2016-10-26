@@ -15,11 +15,11 @@ curl -s\
     "name": "ocr",
     "fields": [
         { "name":"id", "type":"Edm.String", "key": true, "searchable": false, "filterable":false, "facetable":false },
-        { "name":"sessionid", "type":"Edm.String","searchable": false, "filterable":true, "facetable":false },
+        { "name":"contentid", "type":"Edm.String","searchable": false, "filterable":true, "facetable":false },
         { "name":"beginsec", "type":"Edm.Int32", "searchable": false, "filterable":false, "sortable":true, "facetable":false },
         { "name":"begin", "type":"Edm.String", "searchable": false, "filterable":false, "sortable":false, "facetable":false },
         { "name":"end", "type":"Edm.String", "searchable": false, "filterable":false, "sortable":false, "facetable":false },
-        { "name":"caption", "type":"Edm.String", "searchable": true, "filterable":false, "sortable":false, "facetable":false, "analyzer":"ja.microsoft" }
+        { "name":"caption", "type":"Edm.String", "searchable": true, "filterable":false, "sortable":false, "facetable":false, "analyzer":"en.microsoft" }
      ],
      "corsOptions": {
         "allowedOrigins": ["*"],
