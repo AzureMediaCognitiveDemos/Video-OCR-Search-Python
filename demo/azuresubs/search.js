@@ -1,9 +1,9 @@
-var azureSearchAccount="yoichikademo0";
-var azureSearchQueryApiKey = "5694051B97CC6A115D1FAA700B9033C1";
-var indexNameCaptions="ocr";
-var contentid = "azuresubs";
-var inSearch = false;
+var azureSearchAccount="<Azure Search Account Name>";
+var azureSearchQueryApiKey = "<Azure Search API Admin Key>";
+var indexNameCaptions="<Azure Search Index Name>";
+var contentid = "<Batch Name>";
 
+var inSearch = false;
 function init()
 {
 	var searchAPI = "https://" + azureSearchAccount + ".search.windows.net/indexes/" + indexNameCaptions + "/docs?$top=1000&$select=id,contentid,beginsec,begin,end,caption&$count=true&$orderby=beginsec&api-version=2015-02-28&$filter=contentid%20eq%20%27" + contentid + "%27";
