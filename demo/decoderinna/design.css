@@ -1,0 +1,79 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+
+/* custom */
+em {
+    background:yellow;
+    font-size: 100%;
+    font-style: normal;
+}
+#hits2 {
+    font-size: 100%
+}
+
+    .colmask {
+        clear:both;
+        float:left;
+        width:100%;         /* width of whole page */
+        overflow:hidden;        /* This chops off any overhanging divs */
+    }
+    /* common column settings */
+    .colright,
+    .colmid,
+    .colleft {
+        float:left;
+        width:100%;
+        position:relative;
+    }
+    .col,
+    .col1, 
+    .col2 {
+        float:left;
+        position:relative;
+        padding:0 0 1em 0;
+        overflow:hidden;
+     }
+
+    .scrollbox {
+	height: 600px;
+        overflow:scroll;
+    }
+    /* 2 Column (double page) settings */
+    .singlepage,
+    .doublepage {
+        background:#fff;        /* right column background colour */
+    }
+
+    .singlepage .colmid {
+        right:50%;          /* right column width */
+        background:#fff;        /* left column background colour */
+    }
+    .singlepage .col {
+        width:90%;          /* left column content width (column width minus left and right padding) */
+        left:56%;           /* right column width plus left column left padding */
+    }
+
+    .doublepage .colleft {
+        right:50%;          /* right column width */
+        background:#fff;        /* left column background colour */
+    }
+    .doublepage .col1 {
+        width:46%;          /* left column content width (column width minus left and right padding) */
+        left:52%;           /* right column width plus left column left padding */
+    }
+    .doublepage .col2 {
+        width: 46%;         /* right column content width (column width minus left and right padding) */
+        left:56%;           /* (right column width) plus (left column left and right padding) plus (right column left padding) */
+    }
+
+video::-webkit-media-text-track-display {
+  font-size: 50%;
+}
+
+

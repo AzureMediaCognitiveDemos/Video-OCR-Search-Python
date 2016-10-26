@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Yoichi Kawasaki">
+
+    <title>Azure Media Cognitive Demo: Video OCR and Search</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="design.css" rel="stylesheet">
+    <script type="text/javascript">
+
+    function restart(value) {
+        var video = document.getElementById("Video1");
+        video.currentTime = value;
+    }
+    </script>
+
+  </head>
+
+  <body onLoad='init()'>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Azure Media Cognitive Demo: Video OCR and Search</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+
+		<div class="row">
+			<div class="input-group" style="padding:20px;"> 
+				  <input type="text" class="form-control" placeholder="Search for...in closed captions" id="q"  onkeydown='if (event.keyCode == 13) execSearch();' >
+				  <span class="input-group-btn">
+				  <button class="btn btn-default" type="button" onclick='execSearch();'>Go!</button>
+				  </span>
+                  
+			</div><!-- /input-group -->
+		</div>
+    </div><!-- /.container -->
+
+        <div class="colmask doublepage">
+
+            <div class="colleft">
+                <div class="col1">
+                    <!-- Column 1 start -->
+                    <center><h3>Video Track</h3></center>
+
+    <br/>
+    <div>
+        <video id="Video1" controls autoplay width="600">
+            <source src="http://yoichikademo.blob.core.windows.net/amscogs/decode2016-rinna-DBP019.mp4" srclang="en" type="video/mp4">
+            <track id="trackJA"  src="decoderinna.vtt"  kind="captions" srclang="ja" label="OCR Subtitle" default>
+        </video>
+    <br>
+
+    </div>
+            <!-- Column 1 end -->
+            </div>
+            <div class="col2">
+                <!-- Column 2 start -->
+                <center><h3>OCR Text</h3></center>
+            	<div class="scrollbox">
+                	<div id="colcontainer2"></div>
+            	</div>
+                <!-- Column 2 end -->
+            </div>
+        </div> <!-- colleft -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="dist/js/bootstrap.min.js"></script>
+    <!--Tiwtter Typeahead lib -->
+	<script src="search.js"></script>
+  </body>
+</html>
