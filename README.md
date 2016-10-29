@@ -56,3 +56,8 @@ WORKFLOW : ALL|OCR_MP|JSON2CC|SEARCH_UPLOAD
 # (3) Parse and extract text from the webvtt file obtained in (2) and upload them onto Azure Search
 ./run-batch OCR_MP ../demo/azuresubs/video/TransferanAzuresubscriptionJP.mp4 azuresubs ../demo/azuresubs
 ```
+
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/AzureMediaCognitiveDemos/Video-OCR-Search.
+
