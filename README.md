@@ -1,5 +1,10 @@
 # Video-OCR-Search
-Video OCR Search 
+Video OCR (Optical Ccharacter Recognition) and Search Sample
+
+![Screenshot Video OCR Search](https://raw.githubusercontent.com/AzureMediaCognitiveDemos/Video-OCR-Search/master/img/screenshot-video-ocr-demo.jpg)
+
+Demo: [http://aka.ms/amcdemo_videoocr](http://aka.ms/amcdemo_videoocr)
+
 
 ## 1. Preparation
 
