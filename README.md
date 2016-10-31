@@ -1,7 +1,7 @@
 # Video-OCR-Search
 Video OCR (Optical Ccharacter Recognition) and Search Sample
 
-![Screenshot Video OCR Search](https://raw.githubusercontent.com/AzureMediaCognitiveDemos/Video-OCR-Search/master/img/screenshot-video-ocr-demo.jpg)
+![Screenshot Video OCR Search](https://raw.githubusercontent.com/AzureMediaCognitiveDemos/Video-OCR-Search-Python/master/img/screenshot-video-ocr-demo.jpg)
 
 Demo: [http://aka.ms/amcdemo_videoocr](http://aka.ms/amcdemo_videoocr)
 
@@ -59,5 +59,5 @@ WORKFLOW : ALL|OCR_MP|JSON2CC|SEARCH_UPLOAD
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/AzureMediaCognitiveDemos/Video-OCR-Search.
+Bug reports and pull requests are welcome on GitHub at https://github.com/AzureMediaCognitiveDemos/Video-OCR-Search-Python.
 
