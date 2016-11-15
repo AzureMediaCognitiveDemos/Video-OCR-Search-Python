@@ -13,7 +13,7 @@ if ! type "$MAVEN_COMMNAD" > /dev/null; then
 fi
 
 echo "getting copy of azure-media-processor-java from github...."
-git clone git@github.com:yokawasa/azure-media-processor-java.git
+git clone https://github.com/yokawasa/azure-media-processor-java.git
 cd azure-media-processor-java
 
 echo "try compiling the project and see if it works...."
