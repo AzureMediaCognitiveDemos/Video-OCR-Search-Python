@@ -29,16 +29,27 @@ There are 2 types of scritps for creating index schema: execute create_ocr_schem
 ### 1-3. Setup Azure Media Processors Modules
 Please install maven and git if not yet installed on your environment
 ```
-# for Ubuntu/Debian
+# for Ubuntu,Debian
 sudo apt-get install git
 sudo apt-get install maven
 
-# for CentOS
+# for CentOS,Fedora,Oracle Linux,Red Hat Enterprise Linux
 sudo yum install git
 sudo yum install maven
 ```
 
-Check out github repo and build the module in order to make it ready for batch execution
+Also you need Java compiler, so please install JDK if not yet installed on your environment
+```
+# for Ubuntu,Debian
+sudo apt-get install openjdk-7-jdk   (JDK7)
+sudo apt-get install openjdk-8-jdk   (JDK8)
+
+# for CentOS,Fedora,Oracle Linux,Red Hat Enterprise Linux
+sudo yum install java-1.7.0-openjdk  (JDK7)
+sudo yum install java-1.8.0-openjdk  (JDK8)
+```
+
+Finall Check out github repo and build the module in order to make it ready for batch execution
 ```
 cd mediaprocessors
 ./setup.sh
