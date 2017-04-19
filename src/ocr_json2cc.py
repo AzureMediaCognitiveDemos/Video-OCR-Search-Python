@@ -71,6 +71,7 @@ class Fragment:
         return int(self.__start) /int( self.__timescale)
 
     def get_start_in_timefmt(self):
+        return sec2timefmt(self.get_start_in_sec())
 
     def get_end_in_sec(self):
         return (self.__start + self.__duration ) / self.__timescale
